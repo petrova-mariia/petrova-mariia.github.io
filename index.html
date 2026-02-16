@@ -50,8 +50,8 @@
   <!-- About -->
   <section class="section" id="about">
     <div class="container">
-      <h2 class="section__title">О себе</h2>
-      <div class="about__content">
+      <h2 class="section__title reveal">О себе</h2>
+      <div class="about__content reveal">
         <p>Меня зовут Маша. Сейчас я тимлид в Яндексе: управляю командой из 9 человек, выстраиваю процессы «с нуля» и отвечаю за соблюдение сроков.</p>
         <p>В работе люблю порядок и прозрачность. Моя сильная сторона — умение структурировать хаос и переводить задачи с языка заказчика на понятный язык исполнителей. Всегда добиваюсь того, чтобы команда понимала цели, а стейкхолдеры вовремя получали результат.</p>
         <p>Помимо практического опыта, у меня есть база: прошла обучение на проджекта и сейчас углубляюсь в продакт-менеджмент, чтобы лучше понимать бизнес-задачи.</p>
@@ -63,8 +63,8 @@
   <!-- Strengths -->
   <section class="section section--alt" id="strengths">
     <div class="container">
-      <h2 class="section__title">Мои сильные стороны</h2>
-      <div class="strengths__grid">
+      <h2 class="section__title reveal">Мои сильные стороны</h2>
+      <div class="strengths__grid reveal-children">
         <div class="strength-card">
           <div class="strength-card__icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -107,8 +107,8 @@
   <!-- Responsibilities -->
   <section class="section" id="responsibilities">
     <div class="container">
-      <h2 class="section__title">Обязанности и зоны ответственности</h2>
-      <div class="responsibilities__grid">
+      <h2 class="section__title reveal">Обязанности и зоны ответственности</h2>
+      <div class="responsibilities__grid reveal-children">
         <div class="resp-item">
           <span class="resp-item__num">01</span>
           <h3>Управление командой и ресурсами</h3>
@@ -146,9 +146,9 @@
   <!-- Experience -->
   <section class="section section--alt" id="experience">
     <div class="container">
-      <h2 class="section__title">Опыт работы</h2>
+      <h2 class="section__title reveal">Опыт работы</h2>
 
-      <div class="timeline">
+      <div class="timeline reveal-children">
         <div class="timeline__item">
           <div class="timeline__header">
             <div>
@@ -199,8 +199,8 @@
   <!-- Education -->
   <section class="section" id="education">
     <div class="container">
-      <h2 class="section__title">Образование</h2>
-      <div class="education__grid">
+      <h2 class="section__title reveal">Образование</h2>
+      <div class="education__grid reveal-children">
         <div class="edu-card">
           <div class="edu-card__year">2021</div>
           <h3>СПбГУТ им. проф. М.А. Бонч-Бруевича</h3>
@@ -220,9 +220,9 @@
   <!-- Contacts -->
   <section class="section section--dark" id="contacts">
     <div class="container">
-      <h2 class="section__title">Контакты</h2>
-      <p class="contacts__subtitle">Открыта к предложениям о работе и интересным проектам</p>
-      <div class="contacts__grid">
+      <h2 class="section__title reveal">Контакты</h2>
+      <p class="contacts__subtitle reveal">Открыта к предложениям о работе и интересным проектам</p>
+      <div class="contacts__grid reveal-children">
         <a href="https://t.me/Maria_Petrova_A" class="contact-card" target="_blank" rel="noopener">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
           <span>@Maria_Petrova_A</span>
@@ -246,12 +246,27 @@
   </footer>
 
   <script>
+    // Nav scroll state
     const nav = document.querySelector('.nav');
     const hero = document.querySelector('.hero');
-    const observer = new IntersectionObserver(([entry]) => {
+    const navObs = new IntersectionObserver(([entry]) => {
       nav.classList.toggle('nav--scrolled', !entry.isIntersecting);
     }, { threshold: 0.1 });
-    observer.observe(hero);
+    navObs.observe(hero);
+
+    // Scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal, .reveal-children').forEach(el => {
+      revealObs.observe(el);
+    });
   </script>
 
 </body>
